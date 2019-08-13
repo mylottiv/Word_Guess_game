@@ -13,7 +13,7 @@ $(document).ready(function(){
     }
     
     // Initializing Possible Words array
-    const wordBank = ['Madonna','Farmer','Chicken','Bob','Vladimir'];
+    const wordBank = ['Madonna','Farmer','Chicken','Bob','Vladimir','Howl','Brush','Apologize','Villain'];
 
     // Formatting Words in the Word Bank
     for (let i = 0; i < wordBank.length; i++){
