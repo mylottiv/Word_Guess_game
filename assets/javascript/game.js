@@ -1,25 +1,29 @@
 $(document).ready(function(){
-    // Initializing Alphabet Array
-    const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-
+    // Initializing Game Object that holds Global Variables
+    let game = {
+        alphabet: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+        wordBank: ['Madonna','Farmer','Chicken','Bob','Vladimir','Howl','Brush','Apologize','Villain'],
+        wins: 0,
+        guesses: 10,
+        solution: '',
+        activeWord: '',
+        wrongLetters: [],
+    }
+    
     // Replacing Alphabet Strings with Objects
-    for (let i = 0; i < alphabet.length; i++){
-        let temp = alphabet[i];
-        alphabet[i] = {
+    for (let i = 0; i < game.alphabet.length; i++){
+        let temp = game.alphabet[i];
+        game.alphabet[i] = {
             letter: temp,
             checked: false
         }
-        console.log(alphabet[i])
     }
-    
-    // Initializing Possible Words array
-    const wordBank = ['Madonna','Farmer','Chicken','Bob','Vladimir','Howl','Brush','Apologize','Villain'];
 
     // Formatting Words in the Word Bank
-    for (let i = 0; i < wordBank.length; i++){
+    for (let i = 0; i < game.wordBank.length; i++){
         let result = '';
         // Capitalize characters
-        let temp = wordBank[i].toUpperCase();
+        let temp = game.wordBank[i].toUpperCase();
         // Add whitespace if not last character
         for (let j = 0; j < temp.length; j++){
             if (j < temp.length -1){
@@ -30,48 +34,11 @@ $(document).ready(function(){
             }
         }
         // Saves the new formatted words in Word Bank
-        wordBank[i] = result;
-        //console.log(wordBank[i]);
+        game.wordBank[i] = result;
     }
+
     // Calls the initializer for Solution and Active Word and Wrong Letters
-    let solution = '';
-    let activeWord = '';
-    let wrongLetters = [];
     wordInitializer();
-
-    // Initializer function called on starting the game and new game
-    function wordInitializer(){
-        // Choosing active word
-        let drawNumber = Math.floor(Math.random() * wordBank.length);
-
-        // Initializing checked status for alphabet
-        alphabet.forEach(i => i.checked = false);
-
-        // Initializing solution set
-        solution = wordBank[drawNumber];
-
-        // Initializing Active Word
-        let newWord = '';
-        // Uses solution as template for censored word
-        for (let i = 0; i < solution.length; i++){
-            // If an actual letter, replaces with underscore
-            if (solution.charAt(i) !== ' '){
-                newWord += '_';
-            }
-            else{
-                newWord += ' '
-            }
-        }
-        activeWord = newWord;
-        // Reinitializes the wrong letters array
-        wrongLetters = [];
-        console.log(solution);
-        console.log(activeWord);
-    }
-
-    // Initializing guessess and wins counters
-    let guesses = 10;
-    let wins = 0;
     
     // Setting initial input prompt
     $('#input-prompt').text('Guess any letter!');
@@ -86,7 +53,7 @@ $(document).ready(function(){
         let input = String.fromCharCode(event.which);
         
         // Checks if input string is a letter in the alphabet
-        let alphabetTest = alphabet.find(i => i.letter === input);
+        let alphabetTest = game.alphabet.find(i => i.letter === input);
         if (alphabetTest !== undefined){
             if (!alphabetTest.checked){
                 letterChecker(input);
@@ -102,9 +69,9 @@ $(document).ready(function(){
         }
 
         // Checks if player won
-        if (activeWord === solution){
-            wins++;
-            guesses = 10;
+        if (game.activeWord === game.solution){
+            game.wins++;
+            game.guesses = 10;
             
             // Updates to show completed word before initializing new game
             displayUpdate(false);
@@ -112,12 +79,12 @@ $(document).ready(function(){
             $('#input-prompt').text('Congratulations! You Won!');
 
             //  Updates to show new active word after timer delay
-            setTimeout(function() {displayUpdate(true); }, 5000);
+            setTimeout(function() {displayUpdate(true); }, 2500);
         }
         
         // Or if player lost
-        else if (guesses === 0){
-            guesses = 10;
+        else if (game.guesses === 0){
+            game.guesses = 10;
 
             // Updates to show completed word before initializing new game
             displayUpdate(false);
@@ -125,7 +92,7 @@ $(document).ready(function(){
             $('#input-prompt').text('Sorry, out of guesses. Try again!');
 
             //  Updates to show new active word after timer delay
-            setTimeout(function() {displayUpdate(true); }, 5000);
+            setTimeout(function() {displayUpdate(true); }, 2500);
         }
 
         // Otherwise just updates strings and HTML
@@ -134,14 +101,42 @@ $(document).ready(function(){
         }
     })
 
+   // Initializer function called on starting the game and new game
+   function wordInitializer(){
+    // Choosing active word
+    let drawNumber = Math.floor(Math.random() * game.wordBank.length);
+
+    // Initializing checked status for alphabet letters
+    game.alphabet.forEach(i => i.checked = false);
+
+    // Initializing solution set
+    game.solution = game.wordBank[drawNumber];
+
+    // Initializing Active Word
+    let newWord = '';
+    // Uses solution as template for censored word
+    for (let i = 0; i < game.solution.length; i++){
+        // If an actual letter, replaces with underscore
+        if (game.solution.charAt(i) !== ' '){
+            newWord += '_';
+        }
+        else{
+            newWord += ' '
+        }
+    }
+    game.activeWord = newWord;
+    // Reinitializes the wrong letters array
+    game.wrongLetters = [];
+}
+
     // Updates strings for all relevant HTML elements
     function displayUpdate(newGame){
-        $('#word-display').text(activeWord);
-        $('#guesses-remaining').text(`Guesses remaining: ${guesses}`);
-        $('#win-counter').text(`Wins: ${wins}`);
+        $('#word-display').text(game.activeWord);
+        $('#guesses-remaining').text(`Guesses remaining: ${game.guesses}`);
+        $('#win-counter').text(`Wins: ${game.wins}`);
 
         // Passing to HTML here to allow line break tag
-        $('#wrong-letters').html('Tried Letters: <br>' + wrongLetters.join(', '));
+        $('#wrong-letters').html('Tried Letters: <br>' + game.wrongLetters.join(', '));
         
         // If new game, then reinitialize input prompt
         if (newGame){
@@ -152,8 +147,8 @@ $(document).ready(function(){
     function letterChecker(letter){
         
         // Dumps solution and activeWord strings into temp arrays
-        let tempSolution = solution.split(' ');
-        let tempActiveWord = activeWord.split(' ');
+        let tempSolution = game.solution.split(' ');
+        let tempActiveWord = game.activeWord.split(' ');
         
         // Initializes match flag
         let matchFlag = false;
@@ -176,15 +171,15 @@ $(document).ready(function(){
         if (!matchFlag){
             
             // Subtract a guess
-            guesses--;
+            game.guesses--;
         
             // Add wrong guess to array
-            wrongLetters.push(`"${letter}"`);
+            game.wrongLetters.push(`"${letter}"`);
         }
         
         // Otherwise update activeWord
         else {
-            activeWord = tempActiveWord.join(' ');
+            game.activeWord = tempActiveWord.join(' ');
         }
     }
 })
