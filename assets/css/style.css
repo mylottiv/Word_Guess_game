@@ -1,0 +1,36 @@
+body{
+    background-image: url('../images/background.jpg')
+}
+
+#word-display{
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: 'Teko', sans-serif;
+}
+
+.my-col{
+    border: 10px black double;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+#core-row{
+    display: flex;
+    flex-direction: row;
+}
+
+#wrong-letters-column{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#wrong-letters-column .row{
+    display: flex;
+    flex-direction: row;
+    flex-grow: inherit;
+}
+
+#wrong-letters{
+    flex-grow: inherit;
+}

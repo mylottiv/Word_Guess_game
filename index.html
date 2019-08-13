@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Word Guessing Game</title>
+        <link href="https://fonts.googleapis.com/css?family=Teko:700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel='stylesheet' href='assets/css/style.css'>
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='assets/javascript/game.js'></script>
+        <h1 class='text-center'>WELCOME TO WORD GUESS</h1>
+        <div class='container'>
+            <div class='row'>
+                <div id='word-display' class='col text-center my-col'></div>
+            </div>
+            <div class='row' id='core-row'>
+                <div class='col'>
+                    <div class='row'>
+                        <div id='guesses-remaining' class='col text-center my-col'></div>
+                    </div>
+                    <div class='row'>
+                        <div id='win-counter' class='col text-center my-col'></div>
+                    </div>
+                </div>
+                <div class='col' id='wrong-letters-column'>
+                    <div class='row'>
+                        <div id='wrong-letters' class='col text-center my-col'></div>
+                    </div> 
+                </div>
+            </div>
+            <div class='row'>
+                <div id='input-prompt' class='col text-center my-col'></div>
+            </div>
+        </div>
+    </body>
+</html>
